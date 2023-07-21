@@ -53,6 +53,13 @@ namespace MySuperShop
             return products;
         }
 
+        public async Task UpdateProduct(Product product, CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(product));
+            await _httpClient!
+                .PostAsJsonAsync($"update_product", product, cancellationToken);
+        }
+
         public async Task Register(Account account, CancellationToken cancellationToken)
         {
 			ArgumentNullException.ThrowIfNull(account);
