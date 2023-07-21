@@ -1,0 +1,17 @@
+﻿@page "/products/{ProductId:guid}"
+@using EmptyBlazorApp;
+
+<h3>@_product.Name</h3>
+
+<div>@_product.ToString()</div>
+
+@code {
+	[Parameter]
+	public Guid ProductId { get; set; }
+	private Product _product;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+	}
+}

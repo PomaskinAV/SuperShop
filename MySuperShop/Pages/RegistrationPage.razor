@@ -1,0 +1,81 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using MySuperShop.HttpApiClient
+@inject IMyShopClient Client
+
+@page "/Registration"
+<h3>Регистрация</h3>
+
+<EditForm Model="@model" OnValidSubmit="@ProcessRegistration">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Ваше имя" HelperText="Max. 8 characters"
+                    @bind-Value="model.Name" For="@(() => model.Name)" />
+                    <MudTextField Label="Email" Class="mt-3"
+                    @bind-Value="model.Email" For="@(() => model.Email)" />
+                    <MudTextField Label="Пароль" HelperText="Choose a strong password" Class="mt-3"
+                    @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
+                    <MudTextField Label="Пароль еще раз" HelperText="Repeat the password" Class="mt-3"
+                    @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Регистрация</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="5">
+            <MudPaper Class="pa-4 mud-height-full">
+                @if (success)
+                {
+                    <MudText Color="Color.Success">Пользователь зарегистрирован!</MudText>
+                }
+                else
+                {
+                    <ValidationSummary />
+                }
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12">
+            <MudText Typo="Typo.body2" Align="Align.Center">
+                Fill out the form correctly to see the success message.
+            </MudText>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+@code {
+    RegisterAccountForm model = new RegisterAccountForm();
+    bool success;
+
+    public class RegisterAccountForm
+    {
+        [Required]
+        [StringLength(20, ErrorMessage = "Имя должно содержать больше 3-х символов", MinimumLength =3)]
+        public string Name { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(30, ErrorMessage = "Пароль минимум 8 символов", MinimumLength = 8)]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare(nameof(Password))]
+        public string Password2 { get; set; }
+
+    }
+
+    private async Task ProcessRegistration(EditContext context)
+    {
+        await Client.Register(new Account()
+        {
+            Name=model.Name, Email=model.Email, Password=model.Password
+        }, default);
+        success = true;
+    }
+
+}
+

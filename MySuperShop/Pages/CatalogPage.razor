@@ -1,0 +1,46 @@
+﻿@using EmptyBlazorApp;
+@page "/catalog"
+@inject IMyShopClient client
+
+@implements IDisposable
+
+@if(products is null)
+{
+    <div>Загрузка товаров...</div>
+    return;
+}
+
+<h3>Каталог нашего магазина</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Название товара</th>
+            <th>Цена товара</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in products)
+        {
+            <tr>
+                @*<td>@product.Name</td>*@
+                <td><a href="/catalog/@product.Id">@product.Name</a></td>
+                <td>@product.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private Product[]? products;
+    private CancellationTokenSource _cts = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await client.GetProducts(_cts.Token);
+    }
+
+    public void Dispose()
+    {
+        _cts.Cancel();
+    }
+}
