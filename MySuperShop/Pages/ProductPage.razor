@@ -1,17 +1,83 @@
 ﻿@page "/products/{ProductId:guid}"
 @using EmptyBlazorApp;
+@using OnlineShop.HttpApiClient
+@inject NavigationManager NavigationManager
+@implements IDisposable
 
-<h3>@_product.Name</h3>
+@if (_product is null)
+{
+    <MudItem>
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+        <br />
+        <MudText Align="Align.Center">Загрузка товара...</MudText>
+    </MudItem>
+}
+else
+{
 
-<div>@_product.ToString()</div>
+    <MudGrid>
+        <MudItem md="12" sm="12">
+            <MudText Typo="Typo.h3">@_product.Name</MudText>
+        </MudItem>
+        <MudItem lg="4" md="6" sm="12">
+            <MudPaper Class="pa-4">
+                <MudText Typo="Typo.h4" Class="mb-4">Цена: @String.Format("{0:0.00}", _product.Price) &#8381</MudText>
+                <MudText Typo="Typo.body1" Class="mb-4"><strong>Доступно: </strong>@_product.Stock</MudText>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+}
 
 @code {
-	[Parameter]
-	public Guid ProductId { get; set; }
-	private Product _product;
+    [Parameter]
+    public Guid ProductId { get; set; }
+    [Inject]
+    public IMyShopClient? ShopClient { get; set; }
+    [Inject]
+    public NavigationManager manager { get; set; }
+    [Inject]
+    public IDialogService DialogService { get; set; }
+    string state = string.Empty;
+    private Product? _product;
+    private CancellationTokenSource _cts = new CancellationTokenSource();
 
-	protected override async Task OnInitializedAsync()
-	{
-		await base.OnInitializedAsync();
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        _product = await ShopClient!.GetProduct(ProductId, _cts.Token);
+    }
+    public async Task DeleteProduct()
+    {
+        try
+        {
+            bool? result = await DialogService.ShowMessageBox(
+        "Информация",
+        "Вы верены, что хотите удалить продукт?",
+        yesText: "Да", cancelText: "Нет");
+            state = result == null ? "No" : "Yes";
+            if (state == "Yes")
+            {
+                await ShopClient!.DeleteProduct(_product!, _cts.Token);
+                await DialogService.ShowMessageBox("Информация", "Товар удален!");
+                await Task.Delay(TimeSpan.FromSeconds(5), _cts.Token);
+                manager.NavigateTo("/catalog");
+            }
+            if (state == "No")
+            {
+                await DialogService.ShowMessageBox("Информация", "Товар не удален!");
+                return;
+            }
+        }
+        catch (ArgumentNullException)
+        {
+            await DialogService.ShowMessageBox("Ошибка", "Товар не удален!");
+        }
+    }
+    public void ToProductEditPage()
+    {
+        manager.NavigateTo($"/products/{_product!.Id}/editor");
+    }
+    public void Dispose()
+    {
+        _cts.Cancel();
+    }
 }

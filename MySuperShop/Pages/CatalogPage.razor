@@ -1,34 +1,28 @@
 ﻿@using EmptyBlazorApp;
 @page "/catalog"
 @inject OnlineShop.HttpApiClient.IMyShopClient client
+@inject NavigationManager manager
 
 @implements IDisposable
 
-@if(products is null)
-{
-    <div>Загрузка товаров...</div>
-    return;
-}
-
-<h3>Каталог нашего магазина</h3>
-<table>
-    <thead>
-        <tr>
-            <th>Название товара</th>
-            <th>Цена товара</th>
-        </tr>
-    </thead>
-    <tbody>
+<MudDrawerHeader Class="text">Каталог магазина продуктов</MudDrawerHeader>
+<MudGrid>
+    @if (products is null)
+    {
+        <div>Страница загружается...</div>
+    }
+    else
+    {
+        <MudButton @onclick="ToAddProductPage" Variant="Variant.Filled"
+               Style="background-color:#6ec04a;color:white;font-size:15px" Class="mt-4 mb-4 " EndIcon="@Icons.Material.Filled.Add">
+            Добавить новый товар
+        </MudButton>
         @foreach (var product in products)
         {
-            <tr>
-                @*<td>@product.Name</td>*@
-                <td><a href="/catalog/@product.Id">@product.Name</a></td>
-                <td>@product.Price</td>
-            </tr>
+            <ProductItem Product="product" />
         }
-    </tbody>
-</table>
+    }
+</MudGrid>
 
 @code {
     private Product[]? products;
@@ -39,8 +33,17 @@
         products = await client.GetProducts(_cts.Token);
     }
 
+    void NavigateToProductPage(Guid id)
+    {
+        manager.NavigateTo($"/products/{id.ToString()}");
+    }
+
     public void Dispose()
     {
         _cts.Cancel();
     }
+	public void ToAddProductPage()
+	{
+		manager.NavigateTo($"/products/new");
+	}
 }

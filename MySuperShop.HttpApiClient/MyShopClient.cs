@@ -59,6 +59,14 @@ namespace OnlineShop.HttpApiClient
                 .PostAsJsonAsync($"update_product", product, cancellationToken);
         }
 
+        public async Task DeleteProduct(Product product, CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(product));
+            using var response = await _httpClient!
+                .PostAsJsonAsync("delete_product", product, cancellationToken);
+            response.EnsureSuccessStatusCode();
+        }
+
         public async Task Register(RegisterRequest reqest, CancellationToken cancellationToken)
         {
 			ArgumentNullException.ThrowIfNull(reqest);

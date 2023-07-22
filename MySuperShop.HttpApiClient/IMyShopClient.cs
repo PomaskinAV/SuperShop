@@ -9,6 +9,7 @@ namespace OnlineShop.HttpApiClient
 		Task<Product> GetProduct(Guid id, CancellationToken cancellationToken);
         Task<Product[]> GetProducts(CancellationToken cancellationToken);
         Task UpdateProduct(Product product, CancellationToken cancellationToken);
+        Task DeleteProduct(Product product, CancellationToken cancellationToken);
         Task Register(RegisterRequest account, CancellationToken cancellationToken);
     }
 }
