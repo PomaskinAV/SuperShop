@@ -1,7 +1,7 @@
 ﻿using EmptyBlazorApp;
-using MySuperShop.HttpApiClient;
+using OnlineShop.HttpModel.Requests;
 
-namespace MySuperShop
+namespace OnlineShop.HttpApiClient
 {
 	public interface IMyShopClient
 	{
@@ -9,6 +9,6 @@ namespace MySuperShop
 		Task<Product> GetProduct(Guid id, CancellationToken cancellationToken);
         Task<Product[]> GetProducts(CancellationToken cancellationToken);
         Task UpdateProduct(Product product, CancellationToken cancellationToken);
-        Task Register(Account account, CancellationToken cancellationToken);
+        Task Register(RegisterRequest account, CancellationToken cancellationToken);
     }
 }

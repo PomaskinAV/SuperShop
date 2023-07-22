@@ -1,11 +1,10 @@
 ﻿using EmptyBlazorApp;
-using MySuperShop.HttpApiClient;
+using OnlineShop.HttpModel.Requests;
 using System.Net.Http.Json;
-using System.Threading;
 
-namespace MySuperShop
+namespace OnlineShop.HttpApiClient
 {
-	public class MyShopClient : IDisposable, IMyShopClient
+    public class MyShopClient : IDisposable, IMyShopClient
 	{
 		private readonly string _host;
 		private readonly HttpClient _httpClient;
@@ -60,12 +59,12 @@ namespace MySuperShop
                 .PostAsJsonAsync($"update_product", product, cancellationToken);
         }
 
-        public async Task Register(Account account, CancellationToken cancellationToken)
+        public async Task Register(RegisterRequest reqest, CancellationToken cancellationToken)
         {
-			ArgumentNullException.ThrowIfNull(account);
+			ArgumentNullException.ThrowIfNull(reqest);
 
 			var uri = "/account/register";
-			using var response = await _httpClient.PostAsJsonAsync(uri, account, cancellationToken);
+			using var response = await _httpClient.PostAsJsonAsync(uri, reqest, cancellationToken);
 			response.EnsureSuccessStatusCode();
         }
     }

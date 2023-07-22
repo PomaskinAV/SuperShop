@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -13,7 +13,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\MySuperShop.HttpApiClient\MySuperShop.HttpApiClient.csproj" />
+	  <ProjectReference Include="..\MySuperShop.HttpApiClient\OnlineShop.HttpApiClient.csproj" />
 	</ItemGroup>
 	
 	

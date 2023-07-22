@@ -1,4 +1,4 @@
-﻿namespace MyShopBackend.Data
+﻿namespace OnlineShop.Domain.Entities
 {
     public interface IEntity
     {

@@ -1,20 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyShopBackend.Data;
-using MyShopBackend.Data.Repositories;
+using OnlineShop.Domain.Interfaces;
+using OnlineShop.Domain.Services;
+using OnlineShop.HttpModel.Requests;
 
 namespace MyShopBackend.Controllers
 {
+    [Route("account")]
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly AccountService _accountService;
+
+        public AccountController(AccountService accountService)
+        {
+            _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
+        }
         [HttpPost("register")]
         public async Task <IActionResult> Register(
-            Account account,
-            IAccountRepository accountRepository,
+            RegisterRequest request,
             CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(accountRepository);
-            await accountRepository.Add(account, cancellationToken);
+            await _accountService.Register(request.Name, request.Email, request.Password, cancellationToken);
             return Ok();
         }
     }

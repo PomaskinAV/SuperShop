@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyShopBackend.Data;
+using OnlineShop.Domain.Entities;
+using OnlineShop.Domain.Interfaces;
 
-namespace MyShopBackend.Data.Repositories
+namespace MyShopBackend.Repositories
 {
     public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {

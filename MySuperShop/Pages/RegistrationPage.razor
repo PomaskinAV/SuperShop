@@ -1,6 +1,6 @@
 ﻿@using System.ComponentModel.DataAnnotations
-@using MySuperShop.HttpApiClient
-@inject IMyShopClient Client
+@using OnlineShop.HttpModel.Requests;
+@inject OnlineShop.HttpApiClient.IMyShopClient Client
 
 @page "/Registration"
 <h3>Регистрация</h3>
@@ -70,7 +70,7 @@
 
     private async Task ProcessRegistration(EditContext context)
     {
-        await Client.Register(new Account()
+        await Client.Register(new RegisterRequest()
         {
             Name=model.Name, Email=model.Email, Password=model.Password
         }, default);

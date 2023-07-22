@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyShopBackend.Data;
-using MyShopBackend.Data.Repositories;
+using MyShopBackend.Repositories;
+using OnlineShop.Domain;
+using OnlineShop.Domain.Interfaces;
+using OnlineShop.Domain.Services;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,8 +19,9 @@ var dbPath = "myapp.db";
 builder.Services.AddDbContext<AppDbContext>(
    options => options.UseSqlite($"Data Source={dbPath}"));
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
+builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>)); //исправить
 builder.Services.AddScoped<IAccountRepository, AccountRepositoryEf>();
+builder.Services.AddScoped<AccountService>();
 
 var app = builder.Build();
 

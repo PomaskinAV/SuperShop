@@ -2,11 +2,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MySuperShop", "MySuperShop.csproj", "{F5A113AE-319C-4B18-B259-1F186C924FDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Frontend", "OnlineShop.Frontend.csproj", "{F5A113AE-319C-4B18-B259-1F186C924FDB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyShopBackend", "..\MyShopBackend\MyShopBackend.csproj", "{5625168F-B4F9-4D07-8202-4CAB4EC24DCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.WebApi", "..\MyShopBackend\OnlineShop.WebApi.csproj", "{5625168F-B4F9-4D07-8202-4CAB4EC24DCC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MySuperShop.HttpApiClient", "..\MySuperShop.HttpApiClient\MySuperShop.HttpApiClient.csproj", "{E78A64E9-77EA-40BF-B51A-0EEFEACDAD9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.HttpApiClient", "..\MySuperShop.HttpApiClient\OnlineShop.HttpApiClient.csproj", "{E78A64E9-77EA-40BF-B51A-0EEFEACDAD9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.HttpModels", "..\OnlineShop.HttpModels\OnlineShop.HttpModels.csproj", "{55444BFB-9DD1-4E07-9F64-6714D23F6ADE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Domain", "..\OnlineShop.Domain\OnlineShop.Domain.csproj", "{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +30,14 @@ Global
 		{E78A64E9-77EA-40BF-B51A-0EEFEACDAD9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E78A64E9-77EA-40BF-B51A-0EEFEACDAD9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E78A64E9-77EA-40BF-B51A-0EEFEACDAD9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55444BFB-9DD1-4E07-9F64-6714D23F6ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55444BFB-9DD1-4E07-9F64-6714D23F6ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55444BFB-9DD1-4E07-9F64-6714D23F6ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55444BFB-9DD1-4E07-9F64-6714D23F6ADE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

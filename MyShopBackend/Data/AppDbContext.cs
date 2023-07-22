@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.Domain;
 
 namespace MyShopBackend.Data
 {

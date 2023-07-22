@@ -1,4 +1,6 @@
-﻿namespace MyShopBackend.Data
+﻿using OnlineShop.Domain.Entities;
+
+namespace OnlineShop.Domain
 {
 	public class Product : IEntity
 	{
