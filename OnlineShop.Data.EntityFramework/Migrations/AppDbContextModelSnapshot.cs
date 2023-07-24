@@ -3,11 +3,11 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MyShopBackend.Data;
+using OnlineShop.Data.EntityFramework;
 
 #nullable disable
 
-namespace MyShopBackend.Migrations
+namespace OnlineShop.Data.EntityFramework.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -17,16 +17,22 @@ namespace MyShopBackend.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
 
-            modelBuilder.Entity("MyShopBackend.Data.Account", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Account", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HashedPassword")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -34,7 +40,7 @@ namespace MyShopBackend.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("MyShopBackend.Data.Product", b =>
+            modelBuilder.Entity("OnlineShop.Domain.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

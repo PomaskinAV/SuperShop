@@ -1,80 +1,73 @@
 ﻿@using System.ComponentModel.DataAnnotations
+@using OnlineShop.HttpApiClient;
 @using OnlineShop.HttpModel.Requests;
 @inject OnlineShop.HttpApiClient.IMyShopClient Client
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
 
 @page "/Registration"
 <h3>Регистрация</h3>
 
-<EditForm Model="@model" OnValidSubmit="@ProcessRegistration">
+<EditForm Model="@_model" OnValidSubmit="@ProcessRegistration">
     <DataAnnotationsValidator />
     <MudGrid>
         <MudItem xs="12" sm="7">
             <MudCard>
                 <MudCardContent>
-                    <MudTextField Label="Ваше имя" HelperText="Max. 8 characters"
-                    @bind-Value="model.Name" For="@(() => model.Name)" />
+                    <MudTextField Label="Ваше имя"
+                    @bind-Value="_model.Name" For="@(() => _model.Name)" />
                     <MudTextField Label="Email" Class="mt-3"
-                    @bind-Value="model.Email" For="@(() => model.Email)" />
-                    <MudTextField Label="Пароль" HelperText="Choose a strong password" Class="mt-3"
-                    @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
-                    <MudTextField Label="Пароль еще раз" HelperText="Repeat the password" Class="mt-3"
-                    @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
+                    @bind-Value="_model.Email" For="@(() => _model.Email)" />
+                    <MudTextField Label="Пароль" Class="mt-3"
+                    @bind-Value="_model.Password" For="@(() => _model.Password)" InputType="InputType.Password" />
+                    <MudTextField Label="Пароль еще раз" Class="mt-3"
+                    @bind-Value="_model.ConfirmedPassword" For="@(() => _model.ConfirmedPassword)" InputType="InputType.Password" />
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Регистрация</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
-        <MudItem xs="12" sm="5">
-            <MudPaper Class="pa-4 mud-height-full">
-                @if (success)
-                {
-                    <MudText Color="Color.Success">Пользователь зарегистрирован!</MudText>
-                }
-                else
-                {
-                    <ValidationSummary />
-                }
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="12">
-            <MudText Typo="Typo.body2" Align="Align.Center">
-                Fill out the form correctly to see the success message.
-            </MudText>
-        </MudItem>
+        @if (_registrationInProgress)
+        {
+            <MudItem xs="12">
+
+                <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+            </MudItem>
+        }
     </MudGrid>
 </EditForm>
 @code {
-    RegisterAccountForm model = new RegisterAccountForm();
-    bool success;
+    readonly RegisterRequest _model = new();
+    bool _registrationInProgress;
 
-    public class RegisterAccountForm
+    private async Task ProcessRegistration()
     {
-        [Required]
-        [StringLength(20, ErrorMessage = "Имя должно содержать больше 3-х символов", MinimumLength =3)]
-        public string Name { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(30, ErrorMessage = "Пароль минимум 8 символов", MinimumLength = 8)]
-        public string Password { get; set; }
-
-        [Required]
-        [Compare(nameof(Password))]
-        public string Password2 { get; set; }
-
-    }
-
-    private async Task ProcessRegistration(EditContext context)
-    {
-        await Client.Register(new RegisterRequest()
+        if (_registrationInProgress)
         {
-            Name=model.Name, Email=model.Email, Password=model.Password
-        }, default);
-        success = true;
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopCenter;
+            Snackbar.Add("Пожалуйста, подождите...", Severity.Info);
+            return;
+        }
+        _registrationInProgress = true;
+        try
+        {
+            await Client.Register(_model, default);
+            await DialogService.ShowMessageBox(
+                "Успех!",
+                "Поздравляем, Вы успешно зарегистрировались!",
+                yesText: "OK");
+            NavigationManager.NavigateTo("/catalog");
+        }catch(MyShopApiException e)
+        {
+            _registrationInProgress = false;
+            await DialogService.ShowMessageBox("Ошибка!", e.Message, yesText: "OK");
+        }
+        finally
+        {
+            _registrationInProgress = false;
+        }
     }
 
 }

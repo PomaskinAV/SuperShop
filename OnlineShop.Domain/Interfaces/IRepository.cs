@@ -8,5 +8,6 @@ namespace OnlineShop.Domain.Interfaces
         Task<IReadOnlyList<TEntity>> GetAll(CancellationToken cancellationToken);
         Task Add(TEntity entity, CancellationToken cancellationToken);
         Task Update(TEntity entity, CancellationToken cancellationToken);
+        Task Delete(TEntity entity, CancellationToken cancellationToken);
     }
 }

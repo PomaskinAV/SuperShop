@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyShopBackend.Data;
 using MyShopBackend.Repositories;
+using OnlineShop.Data.EntityFramework;
 using OnlineShop.Domain;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Services;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 

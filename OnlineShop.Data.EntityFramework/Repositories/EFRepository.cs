@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyShopBackend.Data;
+using OnlineShop.Data.EntityFramework;
 using OnlineShop.Domain.Entities;
 using OnlineShop.Domain.Interfaces;
 
@@ -41,6 +41,11 @@ namespace MyShopBackend.Repositories
             }
 
             _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+        public virtual async Task Delete(TEntity entity, CancellationToken cancellationToken)
+        {
+            Entities.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }

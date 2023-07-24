@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineShop.Domain;
 
-namespace MyShopBackend.Data
+namespace OnlineShop.Data.EntityFramework
 {
-	public class AppDbContext: DbContext
+    public class AppDbContext: DbContext
 	{
 			//Список таблиц:
 			public DbSet<Product> Products => Set<Product>();

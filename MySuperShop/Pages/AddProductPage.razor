@@ -1,0 +1,79 @@
+﻿@page "/products/new"
+@using EmptyBlazorApp;
+@using OnlineShop.HttpApiClient;
+
+<h3>Добавление товара</h3>
+
+<MudItem xs="3" lg="3" Class="d-flex">
+    <MudPaper Width="300px" Class="pa-4" Style="background-color:#6ec04a">
+        <MudCard>
+            <MudCardContent Style="min-height: 100px">
+                <MudText>Введите название товара:</MudText>
+                <MudTextField @bind-Value="Name" Class="text" Style="background-color: white">
+                </MudTextField>
+                <MudText>Введите цену товара:</MudText>
+                <MudTextField @bind-Value="Price" Style="background-color: white"></MudTextField>
+                <MudText>Введите дату производства:</MudText>
+                <MudTextField @bind-Value="ProducedAt" Style="background-color: white"></MudTextField>
+                <MudText>Введите дату окончания срока годности:</MudText>
+                <MudTextField @bind-Value="ExpiredAt" Style="background-color: white"></MudTextField>
+                <MudText>Введите описание:</MudText>
+                <MudTextField @bind-Value="Description" Style="background-color: white"></MudTextField>
+                <MudText>Введите путь к картинке:</MudText>
+                <MudTextField @bind-Value="Image" Style="background-color: white"></MudTextField>
+            </MudCardContent>
+        </MudCard>
+    </MudPaper>
+</MudItem>
+<MudButton @onclick="SaveProductChanges" Variant="Variant.Filled" Style="background-color:#6ec04a;
+color:white; font-size:15px" Class="mt-4" EndIcon="@Icons.Material.Filled.Add">Добавить</MudButton>
+
+@code {
+    [Inject]
+    public IMyShopClient? ShopClient { get; set; }
+    [Inject]
+    public IDialogService DialogService { get; set; }
+
+    public string Name { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+    public string Image { get; set; } = string.Empty;
+    public DateTime ProducedAt { get; set; } = DateTime.Now;
+    public DateTime ExpiredAt { get; set; }
+    public string Description { get; set; } = string.Empty;
+    private CancellationTokenSource _cts = new CancellationTokenSource();
+
+    public async Task SaveProductChanges()
+    {
+        if (Name == string.Empty)
+        {
+            await DialogService.ShowMessageBox("Ошибка", "Некорректно введено имя!");
+            return;
+        }
+        if (Price <= 0)
+        {
+            await DialogService.ShowMessageBox("Ошибка", "Некорректно введена цена!");
+            return;
+        }
+        var newProduct = new Product(Name, Price)
+            {
+                Id = Guid.NewGuid(),
+                ProducedAt = ProducedAt,
+                ExpiredAt = ExpiredAt,
+                Description = Description,
+            };
+        try
+        {
+            await ShopClient!.AddProduct(newProduct, _cts.Token);
+            await DialogService.ShowMessageBox("Успешно", "Товар добавлен!");
+        }
+        catch (ArgumentNullException)
+        {
+            await DialogService.ShowMessageBox("Ошибка", "Товар не добавлен!");
+        }
+    }
+
+    public void Dispose()
+    {
+        _cts.Cancel();
+    }
+}

@@ -10,18 +10,18 @@ namespace OnlineShop.Domain
         private string _email;
         private string _hashedPassword;
 
-        public Account(Guid id, string name, string email, string password)
+        public Account(string name, string email, string hashedPassword)
         {
             if(string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
             if(string.IsNullOrWhiteSpace(email))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(email));
-            if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(password));
-            Id = id;
+            if (string.IsNullOrWhiteSpace(hashedPassword))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(hashedPassword));
+            Id = Guid.NewGuid();
             _name = name;
             _email = email;
-            _hashedPassword = password;
+            _hashedPassword = hashedPassword;
         }
 
         public Guid Id { get; init; }
@@ -51,33 +51,15 @@ namespace OnlineShop.Domain
                 _email = value;
             }
         }
-        public string Password
+        public string HashedPassword
         {
             get=> _hashedPassword;
             set
             {
-                if (IsValidPassword(value))
-                {
-                    _hashedPassword = value;
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid password.");
-                }
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Value cannot be null or whitespace.", nameof(value));
+                _hashedPassword = value;
             }
-        }
-        private bool IsValidPassword(string password)
-        {
-            if (string.IsNullOrWhiteSpace(password) || password.Length <8)
-            {
-                return false;
-            }
-            string pattern = @"^(?=.*[a-z])(?=.*[A-Z]).{8,}$";
-            if (!Regex.IsMatch(password, pattern))
-            {
-                return false;
-            }
-            return true;
         }
     }
 }

@@ -8,9 +8,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.WebApi", "..\MyS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.HttpApiClient", "..\MySuperShop.HttpApiClient\OnlineShop.HttpApiClient.csproj", "{E78A64E9-77EA-40BF-B51A-0EEFEACDAD9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.HttpModels", "..\OnlineShop.HttpModels\OnlineShop.HttpModels.csproj", "{55444BFB-9DD1-4E07-9F64-6714D23F6ADE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.HttpModels", "..\OnlineShop.HttpModels\OnlineShop.HttpModels.csproj", "{55444BFB-9DD1-4E07-9F64-6714D23F6ADE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Domain", "..\OnlineShop.Domain\OnlineShop.Domain.csproj", "{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Domain", "..\OnlineShop.Domain\OnlineShop.Domain.csproj", "{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Data.EntityFramework", "..\OnlineShop.Data.EntityFramework\OnlineShop.Data.EntityFramework.csproj", "{C95A823C-9A0D-44DD-BC75-08EDE0D7E982}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C95A823C-9A0D-44DD-BC75-08EDE0D7E982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C95A823C-9A0D-44DD-BC75-08EDE0D7E982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C95A823C-9A0D-44DD-BC75-08EDE0D7E982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C95A823C-9A0D-44DD-BC75-08EDE0D7E982}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

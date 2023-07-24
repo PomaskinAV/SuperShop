@@ -1,5 +1,7 @@
 ﻿using EmptyBlazorApp;
 using OnlineShop.HttpModel.Requests;
+using OnlineShop.HttpModels.Responses;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace OnlineShop.HttpApiClient
@@ -48,7 +50,12 @@ namespace OnlineShop.HttpApiClient
 
         public async Task<Product[]> GetProducts(CancellationToken cancellationToken)
         {
-            var products = await _httpClient.GetFromJsonAsync<Product[]>($"get_products", cancellationToken);
+            var products = await _httpClient
+				.GetFromJsonAsync<Product[]>($"get_products", cancellationToken);
+            if (products is null)
+            {
+                throw new InvalidOperationException("The server returned null");
+            }
             return products;
         }
 
@@ -71,9 +78,23 @@ namespace OnlineShop.HttpApiClient
         {
 			ArgumentNullException.ThrowIfNull(reqest);
 
-			var uri = "/account/register";
+			var uri = "account/register";
 			using var response = await _httpClient.PostAsJsonAsync(uri, reqest, cancellationToken);
-			response.EnsureSuccessStatusCode();
+			if(!response.IsSuccessStatusCode)
+			{
+				if(response.StatusCode==HttpStatusCode.Conflict)
+				{
+					var error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+					throw new MyShopApiException(error!);
+				} else if(response.StatusCode==HttpStatusCode.BadRequest)
+				{
+                    var details = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+                    throw new MyShopApiException(response.StatusCode, details!);
+                } else
+				{
+					throw new MyShopApiException("Неизвестная ошибка");
+				}
+			}
         }
     }
 }

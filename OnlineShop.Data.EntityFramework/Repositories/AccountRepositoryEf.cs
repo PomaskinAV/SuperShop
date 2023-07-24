@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyShopBackend.Data;
+using OnlineShop.Data.EntityFramework;
 using OnlineShop.Domain;
 using OnlineShop.Domain.Interfaces;
 
