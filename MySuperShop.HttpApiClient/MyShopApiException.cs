@@ -6,9 +6,9 @@ namespace OnlineShop.HttpApiClient
     public class MyShopApiException : Exception
     {
         public ErrorResponse? Error { get; }
-        public HttpStatusCode? StatusCode { get; }
         public ValidationProblemDetails? Details { get; }
-
+        public HttpStatusCode? StatusCode { get; }
+       
         public MyShopApiException()
         {
         }
@@ -23,6 +23,11 @@ namespace OnlineShop.HttpApiClient
         {
             Error = error;
             StatusCode = error.StatusCode!;
+        }
+
+        public MyShopApiException(HttpStatusCode statusCode, string message)
+        {
+            StatusCode = statusCode;
         }
 
         public MyShopApiException(string? message) : base(message)

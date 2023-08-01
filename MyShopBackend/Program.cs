@@ -1,3 +1,5 @@
+using IdentityPasswordHasherLib;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyShopBackend.Repositories;
@@ -13,6 +15,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IApplicationPasswordHasher, IdentityPasswordHasher>();
 
 var dbPath = "myapp.db";
 builder.Services.AddDbContext<AppDbContext>(

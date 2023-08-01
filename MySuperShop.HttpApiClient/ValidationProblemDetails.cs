@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.HttpApiClient
 {
-    internal class ValidationProblemDetails
+    public class ValidationProblemDetails
     {
         [JsonPropertyName("title")] public string Title { get; set; }
         [JsonPropertyName("status")] public int? Status { get; set; }

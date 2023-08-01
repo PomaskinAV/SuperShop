@@ -12,7 +12,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.HttpModels", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Domain", "..\OnlineShop.Domain\OnlineShop.Domain.csproj", "{D9864A6A-7DD3-4F11-9664-2A6DF89A0AC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Data.EntityFramework", "..\OnlineShop.Data.EntityFramework\OnlineShop.Data.EntityFramework.csproj", "{C95A823C-9A0D-44DD-BC75-08EDE0D7E982}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Data.EntityFramework", "..\OnlineShop.Data.EntityFramework\OnlineShop.Data.EntityFramework.csproj", "{C95A823C-9A0D-44DD-BC75-08EDE0D7E982}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityPasswordHasherLib", "..\IdentityPasswordHasherLib\IdentityPasswordHasherLib.csproj", "{84E76B11-98A8-48DD-9318-C7B0F2586969}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{C95A823C-9A0D-44DD-BC75-08EDE0D7E982}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C95A823C-9A0D-44DD-BC75-08EDE0D7E982}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C95A823C-9A0D-44DD-BC75-08EDE0D7E982}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84E76B11-98A8-48DD-9318-C7B0F2586969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84E76B11-98A8-48DD-9318-C7B0F2586969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84E76B11-98A8-48DD-9318-C7B0F2586969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84E76B11-98A8-48DD-9318-C7B0F2586969}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

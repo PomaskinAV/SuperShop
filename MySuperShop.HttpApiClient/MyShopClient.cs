@@ -84,17 +84,46 @@ namespace OnlineShop.HttpApiClient
 			{
 				if(response.StatusCode==HttpStatusCode.Conflict)
 				{
-					var error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+					var error = await response.Content.ReadFromJsonAsync<ErrorResponse>(cancellationToken: cancellationToken);
 					throw new MyShopApiException(error!);
 				} else if(response.StatusCode==HttpStatusCode.BadRequest)
 				{
-                    var details = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>();
+                    var details = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(cancellationToken: cancellationToken);
                     throw new MyShopApiException(response.StatusCode, details!);
                 } else
 				{
 					throw new MyShopApiException("Неизвестная ошибка");
 				}
 			}
+        }
+
+        public async Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken)
+        {
+			ArgumentNullException.ThrowIfNull(request);
+
+			const string uri = "account/login";
+			using var response = await _httpClient.PostAsJsonAsync(uri, request, cancellationToken);
+			if(!response.IsSuccessStatusCode)
+			{
+				switch (response.StatusCode)
+				{
+					case HttpStatusCode.Conflict:
+						{
+							var error = await response.Content.ReadFromJsonAsync<ErrorResponse>(cancellationToken: cancellationToken);
+							throw new MyShopApiException(error!);
+						}
+					case HttpStatusCode.BadRequest:
+						{
+							var details = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(cancellationToken: cancellationToken);
+							throw new MyShopApiException(response.StatusCode, details!);
+						}
+					default:
+						throw new MyShopApiException($"Неизвестная ошибка: {response.StatusCode}");
+				}
+
+			}
+			var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>(cancellationToken: cancellationToken);
+			return loginResponse!;
         }
     }
 }

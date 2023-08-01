@@ -4,6 +4,7 @@ using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Services;
 using OnlineShop.HttpModel.Requests;
 using OnlineShop.HttpModels.Responses;
+using static OnlineShop.Domain.Services.AccountService;
 
 namespace MyShopBackend.Controllers
 {
@@ -32,6 +33,22 @@ namespace MyShopBackend.Controllers
             }
             
             return Ok();
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<LoginResponse>> Login(LoginRequest request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var account = await _accountService.Login(request.Email, request.Password, cancellationToken);
+                return new LoginResponse(account.Id, account.Name);
+            }catch(AccountNotFoundException)
+            {
+                return Conflict(new ErrorResponse("Аккаунт с таким Email не найден!"));
+            }catch(InvalidPasswordException)
+            {
+                return Conflict(new ErrorResponse("Неверный пароль!"));
+            }
         }
     }
 }
