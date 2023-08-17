@@ -1,4 +1,5 @@
 using IdentityPasswordHasherLib;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,28 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>)); //исп
 builder.Services.AddScoped<IAccountRepository, AccountRepositoryEf>();
 builder.Services.AddScoped<AccountService>();
 
+builder.Services.AddHttpLogging(options =>
+{
+    options.LoggingFields = HttpLoggingFields.RequestHeaders | HttpLoggingFields.ResponseHeaders;
+});
+
 var app = builder.Build();
+
+app.Use(async (context, next) =>
+{
+	var userAgent = context.Request.Headers.UserAgent;
+	if (userAgent.ToString().Contains("Edg"))
+	{
+		await next();
+	}
+	else
+	{
+		await context.Response.WriteAsync(
+			"You are not using Edge");
+	}
+});
+
+app.UseHttpLogging();
 
 app.UseCors(policy =>
 policy.WithOrigins("https://localhost:5001")
