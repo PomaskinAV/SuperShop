@@ -2,6 +2,7 @@
 using OnlineShop.HttpModel.Requests;
 using OnlineShop.HttpModels.Responses;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace OnlineShop.HttpApiClient
@@ -102,8 +103,8 @@ namespace OnlineShop.HttpApiClient
 			ArgumentNullException.ThrowIfNull(request);
 
 			const string uri = "account/login";
-			using var response = await _httpClient.PostAsJsonAsync(uri, request, cancellationToken);
-			if(!response.IsSuccessStatusCode)
+			var response = await _httpClient.PostAsJsonAsync(uri, request, cancellationToken);
+            if (!response.IsSuccessStatusCode)
 			{
 				switch (response.StatusCode)
 				{

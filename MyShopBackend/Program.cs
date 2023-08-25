@@ -1,17 +1,56 @@
 using IdentityPasswordHasherLib;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using MyShopBackend.Repositories;
 using OnlineShop.Data.EntityFramework;
 using OnlineShop.Domain;
 using OnlineShop.Domain.Interfaces;
 using OnlineShop.Domain.Services;
+using OnlineShop.WebApi.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+JwtConfig jwtConfig = builder.Configuration
+.GetRequiredSection("JwtConfig")
+.Get<JwtConfig>()!;
+if (jwtConfig is null)
+{
+    throw new InvalidOperationException("JwtConfig is not configured");
+}
+builder.Services.AddSingleton(jwtConfig);
+builder.Services.AddSingleton<ITokenService, TokenService>();
+
 builder.Services.AddCors();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        IssuerSigningKey = new SymmetricSecurityKey(jwtConfig.SigningKeyBytes),
+        ValidateIssuerSigningKey = true,
+        ValidateLifetime = true,
+        RequireExpirationTime = true,
+        RequireSignedTokens = true,
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        ValidAudiences = new[] { jwtConfig.Audience },
+        ValidIssuer = jwtConfig.Issuer
+    };
+});
+
+builder.Services.AddAuthorization();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -63,6 +102,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

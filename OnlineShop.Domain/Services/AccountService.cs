@@ -46,7 +46,7 @@ public partial class AccountService
         return _accountRepository.Update(account, cancellationToken);
     }
 
-    public async Task Register(string name, string email, string password, CancellationToken cancellationToken)
+    public virtual async Task<Account> Register(string name, string email, string password, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(email);
@@ -60,6 +60,7 @@ public partial class AccountService
 
         var account = new Account(name, email, EncryptPassword(password));
         await _accountRepository.Add(account, cancellationToken);
+        return account;
     }
     private string EncryptPassword(string password)
     {

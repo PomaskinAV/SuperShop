@@ -13,10 +13,12 @@ namespace MyShopBackend.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService, ITokenService tokenService)
         {
             _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
+            _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         }
         [HttpPost("register")]
         public async Task <IActionResult> Register(
@@ -41,7 +43,8 @@ namespace MyShopBackend.Controllers
             try
             {
                 var account = await _accountService.Login(request.Email, request.Password, cancellationToken);
-                return new LoginResponse(account.Id, account.Name);
+                var token = _tokenService.GenerateToken(account);
+                return new LoginResponse(account.Id, account.Name, token);
             }catch(AccountNotFoundException)
             {
                 return Conflict(new ErrorResponse("Аккаунт с таким Email не найден!"));
