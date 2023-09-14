@@ -98,7 +98,7 @@ namespace OnlineShop.HttpApiClient
 			}
         }
 
-        public async Task<LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken)
+        public async Task<LoginByPasswordResponse> Login(LoginRequest request, CancellationToken cancellationToken)
         {
 			ArgumentNullException.ThrowIfNull(request);
 
@@ -123,7 +123,7 @@ namespace OnlineShop.HttpApiClient
 				}
 
 			}
-			var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>(cancellationToken: cancellationToken);
+			var loginResponse = await response.Content.ReadFromJsonAsync<LoginByPasswordResponse>(cancellationToken: cancellationToken);
 			return loginResponse!;
         }
     }

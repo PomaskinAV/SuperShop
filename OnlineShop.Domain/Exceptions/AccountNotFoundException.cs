@@ -1,13 +1,14 @@
 ﻿using OnlineShop.Domain.Exceptions;
 
-namespace OnlineShop.Domain.Services;
-
-public partial class AccountService
+namespace OnlineShop.Domain.Services
 {
-    public class AccountNotFoundException : DomainException
+    public partial class AccountService
     {
-        public AccountNotFoundException(string message) : base(message)
+        public class AccountNotFoundException : DomainException
         {
+            public AccountNotFoundException(string message) : base(message)
+            {
+            }
         }
     }
 }

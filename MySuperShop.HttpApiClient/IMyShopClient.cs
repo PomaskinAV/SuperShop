@@ -12,6 +12,6 @@ namespace OnlineShop.HttpApiClient
         Task UpdateProduct(Product product, CancellationToken cancellationToken);
         Task DeleteProduct(Product product, CancellationToken cancellationToken);
         Task Register(RegisterRequest account, CancellationToken cancellationToken);
-        Task <LoginResponse> Login(LoginRequest request, CancellationToken cancellationToken);
+        Task <LoginByPasswordResponse> Login(LoginRequest request, CancellationToken cancellationToken);
     }
 }

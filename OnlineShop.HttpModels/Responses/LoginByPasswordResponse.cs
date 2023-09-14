@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace OnlineShop.HttpModels.Responses
 {
-    public record LoginResponse(Guid Id, string Name, string Token);
+    public record LoginByPasswordResponse(Guid Id, string Name, Guid? ConfirmationCodeId);
 }
