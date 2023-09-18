@@ -22,6 +22,9 @@ if (jwtConfig is null)
 {
     throw new InvalidOperationException("JwtConfig is not configured");
 }
+
+builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(Program).Assembly); });
+
 builder.Services.AddSingleton(jwtConfig);
 builder.Services.AddSingleton<ITokenService, TokenService>();
 

@@ -1,4 +1,6 @@
-﻿using OnlineShop.Domain.Entities;
+﻿using MediatR;
+using OnlineShop.Domain.Entities;
+using OnlineShop.Domain.Events;
 using OnlineShop.Domain.Exceptions;
 using OnlineShop.Domain.Interfaces;
 using System.CodeDom.Compiler;
@@ -10,13 +12,15 @@ namespace OnlineShop.Domain.Services
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IApplicationPasswordHasher _hasher;
+        private readonly IMediator _mediator;
         private readonly IUnitOfWork _uow;
         private readonly IEmailSender _emailSender;
 
-        public AccountService(IAccountRepository accountRepository, IApplicationPasswordHasher hasher)
+        public AccountService(IApplicationPasswordHasher hasher, IUnitOfWork uow, IMediator mediator)
         {
-            _accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
+            _uow = uow ?? throw new ArgumentNullException(nameof(uow));
             _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public virtual async Task<(Account account, Guid codeId)> Login(string email, string password, CancellationToken cancellationToken)
@@ -91,6 +95,7 @@ namespace OnlineShop.Domain.Services
 
             var account = new Account(name, email, EncryptPassword(password));
             await _accountRepository.Add(account, cancellationToken);
+            await _mediator.Publish(new AccountRegistered(account, DateTime.UtcNow), cancellationToken);
             return account;
         }
         private string EncryptPassword(string password)
