@@ -16,7 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Data.EntityFrame
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityPasswordHasherLib", "..\IdentityPasswordHasherLib\IdentityPasswordHasherLib.csproj", "{84E76B11-98A8-48DD-9318-C7B0F2586969}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySuperShop.EmailSender.MailKitSmtp", "..\MySuperShop.EmailSender.MailKitSmtp\MySuperShop.EmailSender.MailKitSmtp.csproj", "{9FDB3893-6FD1-4A57-90B2-4EEB0F55DA3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MySuperShop.EmailSender.MailKitSmtp", "..\MySuperShop.EmailSender.MailKitSmtp\MySuperShop.EmailSender.MailKitSmtp.csproj", "{9FDB3893-6FD1-4A57-90B2-4EEB0F55DA3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4068B42F-5FF4-4159-9A0E-4A6B04102708}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySuperShop.Domain.Test", "..\tests\MySuperShop.Domain.Test\MySuperShop.Domain.Test.csproj", "{7F0B95AF-225F-48AB-84A4-2661D6F0F812}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,9 +60,16 @@ Global
 		{9FDB3893-6FD1-4A57-90B2-4EEB0F55DA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FDB3893-6FD1-4A57-90B2-4EEB0F55DA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FDB3893-6FD1-4A57-90B2-4EEB0F55DA3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F0B95AF-225F-48AB-84A4-2661D6F0F812}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F0B95AF-225F-48AB-84A4-2661D6F0F812}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F0B95AF-225F-48AB-84A4-2661D6F0F812}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F0B95AF-225F-48AB-84A4-2661D6F0F812}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7F0B95AF-225F-48AB-84A4-2661D6F0F812} = {4068B42F-5FF4-4159-9A0E-4A6B04102708}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B55A6767-4D97-427C-AF9B-C7872891A559}
