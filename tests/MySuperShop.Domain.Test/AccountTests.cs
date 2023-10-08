@@ -16,7 +16,7 @@ namespace MySuperShop.Domain.Test
         [Fact]
         public async void Account_registered_event_notifies_user_by_email()
         {
-            // Arrange
+
             var account = new Account(Guid.NewGuid(), "John", "John@john.com", "qwerty", new[] { Role.Customer });
 
             var loggerMock = new Mock<ILogger<UserRegistrationNotificationByEmailHandler>>();
@@ -24,20 +24,16 @@ namespace MySuperShop.Domain.Test
             var emailSenderMock = new Mock<IEmailSender>();
 
 
-            // var emailSender = new FakeEmailSender();
             var logger = new Logger<UserRegistrationNotificationByEmailHandler>(new LoggerFactory());
 
             var handler = new UserRegistrationNotificationByEmailHandler(emailSenderMock.Object, loggerMock.Object);
             var @event = new AccountRegistered(account, DateTime.Now);
 
-            // Act
+
             await handler.Handle(@event, default);
 
-            // Assert
-            // 1. Активация обработчика (триггер)
             handler.Should().BeAssignableTo<INotificationHandler<AccountRegistered>>();
 
-            // 2. Факт вызова метода отправки сообщения
             emailSenderMock
                 .Verify(it =>
                     it.SendEmailAsync(account.Email, It.IsAny<string>(), It.IsAny<string>(), default), Times.Once);
